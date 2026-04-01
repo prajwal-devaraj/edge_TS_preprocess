@@ -3,44 +3,8 @@ import pandas as pd
 import numpy as np
 import json
 from sklearn.preprocessing import RobustScaler
+from utility import slice_good_cycle, load_data
 
-def apply_symlog(data):
-    return np.sign(data) * np.log1p(np.abs(data))
-
-def slice_good_cycle(cycle_data, window_size=500, step=250):
-    """
-    Slicing of good cycles: discard tail shorter than 500 
-    cycle_data: shape (N, 3) numpy array
-    """
-    windows = []
-    num_steps = len(cycle_data)
-    
-    # Discard Tail
-    for start_idx in range(0, num_steps - window_size + 1, step):
-        end_idx = start_idx + window_size
-        window = cycle_data[start_idx:end_idx, :] # shape (500, 3)
-        windows.append(window)
-        
-    return windows
-
-def load_data(month, year, end, folder_path, machineId='M01', operation='OP07', start=0):
-    cycle_data_list = []
-
-    for i in range(start, end + 1):
-        filename = f"{machineId}_{month}_{year}_{operation}_{i:03d}.csv"
-        filepath = os.path.join(folder_path, filename)
-
-        if not os.path.exists(filepath):
-            print(f"Warning: Cannot find {filename}, file skiped.")
-            continue
-
-        df = pd.read_csv(filepath)
-        raw_sensor_data = df[['x','y','z']].values
-
-        symlog_data = apply_symlog(raw_sensor_data)
-        cycle_data_list.append(symlog_data)
-
-    return cycle_data_list
 
 def build_training_data(good_cycles_list):
     all_training_windows = []

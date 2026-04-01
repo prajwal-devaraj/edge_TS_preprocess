@@ -1,3 +1,4 @@
+import os
 import torch
 import torch.optim as optim
 from torch.utils.data import DataLoader, TensorDataset
@@ -23,7 +24,7 @@ criterion = torch.nn.SmoothL1Loss()
 optimizer = optim.Adam(model.parameters(), lr=0.001)
 
 # 3. Training loop
-epochs = 40
+epochs = 50
 for epoch in range(epochs):
     model.train()
     total_loss = 0
@@ -41,6 +42,16 @@ for epoch in range(epochs):
     
     avg_loss = total_loss / len(train_loader)
     print(f"Epoch [{epoch+1}/{epochs}], Loss: {avg_loss:.6f}")
+
+# 4. Save the trained model
+os.makedirs('data/models', exist_ok=True)
+model_save_path = 'data/models/cnnlstm_autoencoder_op07.pth'
+
+torch.save(model.state_dict(), model_save_path)
+print(f"[*] Model saved to {model_save_path}")
+
+# ==============================================
+
 
 # Visualize training loss
 model.eval()

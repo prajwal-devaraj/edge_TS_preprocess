@@ -1,3 +1,5 @@
+import pandas as pd
+import os
 import numpy as np
 
 def slice_good_cycle(cycle_data, window_size=500, step=250):
@@ -64,3 +66,34 @@ def window_enchancement(window_raw):
 
 def apply_symlog(data):
     return np.sign(data) * np.log1p(np.abs(data))
+
+
+def load_data(month, year, end, folder_path, machineId='M01', operation='OP07', start=0):
+    cycle_data_list = []
+
+    for i in range(start, end + 1):
+        filename = f"{machineId}_{month}_{year}_{operation}_{i:03d}.csv"
+        filepath = os.path.join(folder_path, filename)
+
+        if not os.path.exists(filepath):
+            print(f"Warning: Cannot find {filename}, file skiped.")
+            continue
+
+        df = pd.read_csv(filepath)
+        raw_sensor_data = df[['x','y','z']].values
+
+        symlog_data = apply_symlog(raw_sensor_data)
+        cycle_data_list.append(symlog_data)
+
+    return cycle_data_list
+
+def load_cycle(filepath):
+    if not os.path.exists(filepath):
+        print(f"Warning: Cannot find {filepath}, file skiped.")
+        return None
+
+    df = pd.read_csv(filepath)
+    raw_sensor_data = df[['x','y','z']].values
+    symlog_data = apply_symlog(raw_sensor_data)
+
+    return symlog_data
