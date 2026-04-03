@@ -1,0 +1,8 @@
+{
+    "version": "1.0",
+    "description": "Alarm thresholds based on steady-state good cycles",
+    "mu": 0.024773431941866875,
+    "sigma": 0.007565690670162439,
+    "threshold_3sigma": 0.04747050255537033,
+    "threshold_4sigma": 0.05503619462251663
+}
