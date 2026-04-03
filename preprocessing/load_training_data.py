@@ -66,6 +66,5 @@ if __name__ == "__main__":
         tensor_save_path = os.path.join(PROCESSED_DATA_FOLDER, 'training_tensor.npy')
         np.save(tensor_save_path, training_tensor)
         print(f"[*] Training 3D Tensor saved to NumPy archive: {tensor_save_path}")
-
-else:
-    print("No cycles found. Please check the raw data files and paths.")
+    else:
+        print("No cycles found. Please check the raw data files and paths.")
