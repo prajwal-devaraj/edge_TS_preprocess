@@ -94,7 +94,6 @@ def visualize_sample_reconstruction(model, tensor_path):
     plt.show()
 
 if __name__ == '__main__':
-    model_training('data/processed/training_tensor.npy', visualize_loss=False)
 
     trained_model, _ = model_training('data/processed/training_tensor.npy', visualize_loss=False)
 

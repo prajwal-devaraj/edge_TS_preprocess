@@ -8,8 +8,11 @@ from cnnlstm_autoencoder import CNNLSTMAutoencoder
 from utility import load_cycle, slice_good_cycle, slice_bad_cycle
 
 
-def model_validation(dataset_path, model_path='data/models/cnnlstm_autoencoder_op07.pth', validation_plots_folder='data/plots/validation', alarm_params_path='data/processed/cloud_alarm_params.json'):
-    """Validate the model against a saved validation dataset.
+def model_validation(dataset_path, model_path='data/models/cnnlstm_autoencoder_op07.pth',
+                     validation_plots_folder='data/plots/validation',
+                     alarm_params_path='data/processed/cloud_alarm_params.json',
+                     version='1.0'):
+    """Validate the model against a saved validation dataset. Generate alarm thresholds.
 
     Args:
         dataset_path (str): Path to the validation .npz archive.
@@ -90,7 +93,7 @@ def model_validation(dataset_path, model_path='data/models/cnnlstm_autoencoder_o
         print("=" * 50 + "\n")
 
         alarm_params = {
-            "version": "1.0",
+            "version": version,
             "description": "Alarm thresholds based on steady-state good cycles",
             "mu": float(mu),
             "sigma": float(sigma),
